@@ -1,0 +1,2 @@
+export const metadata={title:"Privacy"};
+export default function Page(){return <section className="wrap page-hero"><h1>Privacy</h1><p>This development website uses illustrative portfolio images. Enquiry collection and client admin access are not enabled yet. External links and images may connect to their providers. A complete privacy notice will be published with the configured services before launch.</p></section>}

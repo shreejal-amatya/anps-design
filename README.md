@@ -1,16 +1,17 @@
 # ANPS Design
 
-Static multi-page site source for ANPS Design.
+Next.js foundation preserving the approved ANPS UI. Source baseline: development commit 708af4a.
 
-## Branch and deploy workflow
+## Local setup
 
-- `main` is reserved for the eventual final launch through Vercel project `anps-design`.
-- `development` is the working branch for Vercel project `anps-design-dev`.
-- Connect `anps-design-dev` to this GitHub repository and deploy the `development` branch as a Vercel Preview (or set it as that project's production branch if a stable dev URL is preferred).
-- Keep the `anps-design` Vercel project disconnected until the final launch is approved.
+Use Node 24 and npm. Run `npm ci`, `npm test`, `npm run typecheck`, and `npm run build`. Configure `APP_ENV=local` before running the app. Link only to `anps-design-dev` and verify development-only credentials before database commands. Do not run schema changes against production.
 
-## Pages
+## Current scope
 
-Home, Services, About, Contact, and portfolio pages for Weddings, Pre/Post Wedding, Pasni, Graphic & Banner Design, and Motion & Video.
+Public routes: /, /services, /works, /works/[slug], /about, /contact, /privacy. Existing HTML URLs redirect. Shared shell and client interactions replace duplicated brittle scripts. Trusted versioned design templates preserve the current visual direction pending feature component migration. No runtime CMS HTML is accepted.
 
-The original supplied logo is in `assets/anps-logo.svg`. Portfolio imagery is illustrative sample content and must be replaced with approved ANPS work before launch. The enquiry form is a visual preview and does not send or store submissions.
+Admin is fail-closed (404); enquiry API returns 503 until backend integration is complete. This is a foundation, not a live enquiry system. All portfolio imagery is illustrative. Search indexing stays disabled until launch.
+
+## Environments
+
+One repository. Development branch uses anps-design-dev; main reserved for reviewed production releases on anps-design. APP_ENV is explicit and distinct from Vercel deployment scope and NODE_ENV. Never share credentials/database/media write access across environments. Private setup checklists, architecture and failure reports stay outside this public repository.
