@@ -1,0 +1,4 @@
+import 'server-only';
+import {database} from '../db';
+export async function publishedProjects(category:string|null=null,featured=false,page=1){return (await database().query("SELECT p.*,m.width,m.height,m.alt_text,c.title AS category,c.slug AS category_slug FROM projects p LEFT JOIN media_assets m ON m.id=p.cover_asset_id LEFT JOIN project_categories pc ON pc.project_id=p.id LEFT JOIN categories c ON c.id=pc.category_id WHERE p.status='published' AND ($1::text IS NULL OR c.slug=$1) AND ($2=false OR p.featured=true) ORDER BY p.published_at DESC,p.id LIMIT 25 OFFSET $3",[category,featured,(page-1)*24])).rows;}
+export async function projectMedia(id:string){return (await database().query("SELECT m.* FROM project_media pm JOIN media_assets m ON m.id=pm.asset_id WHERE pm.project_id=$1 AND m.processing_status='ready' AND m.rights_confirmed=true ORDER BY pm.sort_order",[id])).rows;}

@@ -1,0 +1,5 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {youtubeId,validUpload} from '../src/features/media/validation.mjs';
+test('YouTube parser keeps video identity and drops tracking parameters',()=>{assert.equal(youtubeId('https://youtu.be/Xocq9j_UFfk?si=FOUhprNbyzayghyM'),'Xocq9j_UFfk');assert.equal(youtubeId('https://www.youtube.com/watch?v=Xocq9j_UFfk'),'Xocq9j_UFfk');for(const url of ['https://youtube.com.evil.test/watch?v=Xocq9j_UFfk','javascript:alert(1)','https://youtu.be/too-short','https://user@youtu.be/Xocq9j_UFfk'])assert.equal(youtubeId(url),null);});
+test('Uploads require supported type, bounded size, alt text, permission and project',()=>{const valid={type:'image/jpeg',size:400000,alt:'A wedding portrait',rights:true,projectId:'df7a6cb0-ab49-4240-a105-61adfb3269e8'};assert.ok(validUpload(valid));for(const patch of [{type:'image/svg+xml'},{size:13000000},{rights:false},{alt:''},{projectId:'invalid'}])assert.equal(validUpload({...valid,...patch}),false);});

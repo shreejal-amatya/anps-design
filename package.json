@@ -12,13 +12,16 @@
     "db:migrate": "node --env-file=.env.local scripts/migrate.mjs"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1159.0",
+    "@aws-sdk/s3-request-presigner": "^3.1159.0",
     "@neondatabase/auth": "^0.6.0-beta",
     "@vercel/functions": "^3.10.4",
     "html-react-parser": "latest",
     "next": "latest",
     "pg": "^8.23.1",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "sharp": "^0.35.5"
   },
   "devDependencies": {
     "@types/node": "latest",
