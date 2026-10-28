@@ -10,7 +10,7 @@ Use Node 24 and npm. Run `npm ci`, `npm test`, `npm run typecheck`, and `npm run
 
 Public routes: /, /services, /works, /works/[slug], /about, /contact, /privacy. Existing HTML URLs redirect. Shared shell and client interactions replace duplicated brittle scripts. Trusted versioned design templates preserve the current visual direction pending feature component migration. No runtime CMS HTML is accepted.
 
-Admin uses Neon Auth with server-enforced active membership. No public registration is exposed by the application. An owner account must be provisioned before use. The enquiry API returns 503 until its integration is complete. This is a foundation, not a live enquiry system. All portfolio imagery is illustrative. Search indexing stays disabled until launch.
+Admin uses Neon Auth with server-enforced active membership. No public registration is exposed by the application. An owner account must be provisioned before use. The enquiry API validates and persists enquiries with deduplication, keyed request limits and a transactional notification outbox. Email sending is not configured. This is a foundation, not a live enquiry system. All portfolio imagery is illustrative. Search indexing stays disabled until launch.
 
 ## Environments
 
@@ -18,4 +18,4 @@ One repository. Development branch uses anps-design-dev; main reserved for revie
 
 ## Database changes
 
-Versioned SQL lives in db/migrations. Run npm run db:migrate with APP_ENV=development and a direct DATABASE_URL_UNPOOLED in the ignored .env.local. The runner checks migration checksums, applies each migration transactionally and serializes concurrent runs. Production migrations are intentionally unsupported at this stage. The health endpoint verifies database connectivity and schema presence; it does not prove enquiries or media are functional.
+Versioned SQL lives in db/migrations. Run npm run db:migrate with APP_ENV=development and a direct DATABASE_URL_UNPOOLED in the ignored .env.local. The runner checks migration checksums, applies each migration transactionally and serializes concurrent runs. Production migrations are intentionally unsupported at this stage. The health endpoint verifies database connectivity and schema presence; it reports schema and enquiry-storage readiness; it does not prove email delivery or media are functional.
