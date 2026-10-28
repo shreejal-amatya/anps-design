@@ -1,0 +1,5 @@
+'use client';
+import {useState} from 'react';
+import {createAuthClient} from '@neondatabase/auth/next';
+const client=createAuthClient();
+export default function Login(){const [pending,setPending]=useState(false);const [error,setError]=useState('');return <form className="quote-form" onSubmit={async e=>{e.preventDefault();setPending(true);setError('');const form=new FormData(e.currentTarget);try{const result=await client.signIn.email({email:String(form.get('email')),password:String(form.get('password'))});if(result.error)setError('Unable to sign in. Check your details or contact the studio owner.');else window.location.assign('/admin');}catch{setError('Sign-in is unavailable. Please try again.');}finally{setPending(false);}}}><label className="field field--wide">Email<input name="email" type="email" autoComplete="username" required/></label><label className="field field--wide">Password<input name="password" type="password" autoComplete="current-password" required/></label><button className="btn" disabled={pending}>{pending?'Signing in…':'Sign in'}</button><p role="alert">{error}</p></form>}
