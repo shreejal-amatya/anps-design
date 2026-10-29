@@ -1,0 +1,3 @@
+'use client';
+import {useState} from 'react';
+export default function YouTubePlayer({id,title}:{id:string;title:string}){const [loaded,setLoaded]=useState(false);return <div className="film"><div className="film-player">{loaded?<iframe src={`https://www.youtube-nocookie.com/embed/${id}`} title={title} allow="encrypted-media; picture-in-picture" allowFullScreen/>:<div><p>ANPS FILM</p><h2>{title}</h2><button className="btn btn--light" onClick={()=>setLoaded(true)}>Load video from YouTube ▶</button><small>Loading the player connects to YouTube.</small></div>}</div><a href={`https://www.youtube.com/watch?v=${id}`} target="_blank" rel="noopener noreferrer">Watch on YouTube ↗</a></div>}

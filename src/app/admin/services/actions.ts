@@ -1,0 +1,7 @@
+'use server';
+import {redirect} from 'next/navigation';
+import {revalidatePath} from 'next/cache';
+import {requireAdmin} from '../../../components/admin/AdminFrame';
+import {database} from '../../../server/db';
+import {serviceDefaults} from '../../../server/services';
+export async function saveService(slug:string,form:FormData){const member=await requireAdmin();const title=String(form.get('title')??'').trim(),description=String(form.get('description')??'').trim(),status=String(form.get('status')??'');const order=serviceDefaults.findIndex(s=>s.slug===slug);if(order<0||!title||title.length>100||description.length<10||description.length>500||!['draft','published','archived'].includes(status))redirect('/admin/services?error=validation');const client=await database().connect();let failed=false;try{await client.query('BEGIN');await client.query('INSERT INTO services(slug,title,description,status,sort_order) VALUES($1,$2,$3,$4,$5) ON CONFLICT(slug) DO UPDATE SET title=EXCLUDED.title,description=EXCLUDED.description,status=EXCLUDED.status,updated_at=now()',[slug,title,description,status,order]);await client.query('INSERT INTO audit_log(actor_id,action,entity_id) VALUES($1,$2,$3)',[member.user_id,'service.updated',slug]);await client.query('COMMIT');}catch{await client.query('ROLLBACK');failed=true;}finally{client.release();}if(failed)redirect('/admin/services?error=save');revalidatePath('/');revalidatePath('/services');redirect('/admin/services?saved=1');}

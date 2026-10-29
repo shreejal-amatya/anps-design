@@ -1,0 +1,2 @@
+import {contactSettings} from '../server/site-settings';
+export default async function ContactDetails(){const contact=await contactSettings();return <div className="contact-detail"><b>Studio location</b>{contact.location}{contact.email?<p><a href={'mailto:'+contact.email}>{contact.email}</a></p>:null}{contact.phone?<p><a href={'tel:'+contact.phone.replace(/[^+0-9]/g,'')}>{contact.phone}</a></p>:null}{contact.whatsapp?<p><a href={'https://wa.me/'+contact.whatsapp.replace(/\D/g,'')} target="_blank" rel="noopener noreferrer">Message on WhatsApp ↗</a></p>:null}</div>}
