@@ -29,5 +29,9 @@
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "typescript": "latest"
+  },
+  "overrides": {
+    "better-auth": "1.7.14",
+    "zod": "4.6.7"
   }
 }

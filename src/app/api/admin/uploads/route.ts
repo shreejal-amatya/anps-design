@@ -1,3 +1,4 @@
+import {limitedJson} from '../../../../server/http/json.mjs';
 import {randomUUID} from 'node:crypto';
 import {adminMember} from '../../../../server/auth';
 import {database} from '../../../../server/db';
@@ -7,7 +8,7 @@ export const dynamic='force-dynamic';
 export async function POST(request:Request){
  if(request.headers.get('origin')!==new URL(request.url).origin)return Response.json({error:'Forbidden'},{status:403});
  const member=await adminMember();if(!member)return Response.json({error:'Unauthorized'},{status:401});
- let input;try{if(Number(request.headers.get('content-length'))>4096)throw Error();input=await request.json();}catch{return Response.json({error:'Invalid upload'},{status:400});}
+ let input;try{input=await limitedJson(request);}catch{return Response.json({error:'Invalid upload'},{status:400});}
  if(!validUpload(input))return Response.json({error:'Choose a JPEG, PNG or WebP up to 12 MB, add a description and confirm permission.'},{status:400});
  const client=await database().connect();const id=randomUUID();
  try{await client.query('BEGIN');await client.query('SELECT pg_advisory_xact_lock(51922)');const project=await client.query("SELECT id FROM projects WHERE id=$1 AND status='draft' FOR UPDATE",[input.projectId]);if(!project.rowCount)throw Error('Draft project required');
