@@ -5,7 +5,7 @@ export const mediaLibraryHardLimitBytes=500*1024*1024;
 export const dailyUploadLimit=100;
 export function youtubeId(value){
  try{const u=new URL(value);if(u.protocol!=='https:'||u.username||u.password||u.port)return null;
- let id=null;if(u.hostname==='youtu.be')id=u.pathname.slice(1);else if(['youtube.com','www.youtube.com','m.youtube.com','www.youtube-nocookie.com'].includes(u.hostname)){if(u.pathname==='/watch')id=u.searchParams.get('v');else if(/^\\/(embed|shorts)\\//.test(u.pathname))id=u.pathname.split('/')[2];}
+ let id=null;if(u.hostname==='youtu.be')id=u.pathname.slice(1);else if(['youtube.com','www.youtube.com','m.youtube.com','www.youtube-nocookie.com'].includes(u.hostname)){if(u.pathname==='/watch')id=u.searchParams.get('v');else if(/^\/(embed|shorts)\//.test(u.pathname))id=u.pathname.split('/')[2];}
  return /^[a-zA-Z0-9_-]{11}$/.test(id??'')?id:null;
  }catch{return null;}
 }
